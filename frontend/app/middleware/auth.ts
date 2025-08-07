@@ -1,16 +1,32 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const { loggedIn, loading, refreshSession } = useAuth()
+  const { loggedIn, loading, initialized } = useAuth()
 
   // Skip if already checking
-  if (loading.value) return
-
-  // If not logged in and we haven't checked yet, try to refresh session
-  if (!loggedIn.value && process.server) {
-    console.log('Refreshing session on server-side middleware')
-    await refreshSession()
+  if (loading.value) {
+    return
   }
 
-  // After checking, if still not logged in, redirect to login
+  // Wait for auth initialization to complete
+  if (!initialized.value) {
+    // On server side, initialization should complete quickly
+    // On client side, give it a reasonable timeout  
+    const maxWaitTime = process.server ? 500 : 3000
+    const startTime = Date.now()
+
+    while (!initialized.value && (Date.now() - startTime) < maxWaitTime) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+
+    // If still not initialized after timeout, assume unauthenticated
+    if (!initialized.value) {
+      if (process.dev) {
+        console.warn('[Auth Middleware] Auth initialization timeout - redirecting to login')
+      }
+      return navigateTo('/auth/login')
+    }
+  }
+
+  // Now check if user is authenticated
   if (!loggedIn.value) {
     return navigateTo('/auth/login')
   }

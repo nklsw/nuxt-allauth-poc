@@ -29,11 +29,13 @@
       <section>
         <h2>Actions</h2>
         <div class="grid" v-if="loggedIn">
+          <NuxtLink to="/example" role="button">Example</NuxtLink>
           <button @click="handleLogout" :disabled="loading" class="secondary">
             {{ loading ? 'Logging out...' : 'Logout' }}
           </button>
         </div>
         <div class="grid" v-else>
+          <NuxtLink to="/example" role="button">Example</NuxtLink>
           <NuxtLink to="/auth/login" role="button">Login</NuxtLink>
           <NuxtLink to="/auth/signup" role="button" class="secondary">Sign Up</NuxtLink>
         </div>

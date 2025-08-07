@@ -1,13 +1,14 @@
-# Nuxt-Allauth POC
+# nuxt-allauth-poc
 
-A minimal proof-of-concept demonstrating cookie-based session authentication between a Django REST Framework backend (using Allauth) and a Nuxt v4 frontend with custom composables, plugins, and middleware.
+A minimal proof-of-concept demonstrating cookie-based session authentication between a Django REST Framework backend and a Nuxt v4 frontend with custom composables, plugins, and middleware.
 
 ## Features
 
-- **Backend**: Django, Django REST Framework, django-allauth
-- **Frontend**: Nuxt v4, TypeScript, Pico CSS
-- **Auth**: Custom `useAuth` composable for login, signup, logout, and session refresh
-- **Middleware**: Route protection for authenticated/guest access
+- Cookie-based session authentication using [django-allauth](https://django-allauth.readthedocs.io/en/latest/) headless endpoints
+- Support for `CSR` and `SSR`
+- Custom `useAuth` composable for login, signup, logout, and session refresh
+- Custom `useApiFetch` composable for authenticated API requests
+- Custom `auth` and `guest` middleware for route protection
 
 ## Setup & Run
 
@@ -28,4 +29,11 @@ Prerequisites: `pnpm`, `uv`, and [just](https://github.com/casey/just)
 
 - Visit `/auth/signup` to register a new account
 - Visit `/auth/login` to sign in
-- Access protected routes once authenticated
+- Authentication state is available at `/` (unprotected) and `/example` (protected)
+
+## WIP
+- [ ] Add tests
+- [ ] Improve error handling and user feedback
+- [ ] Add email verification functionality
+- [ ] Add password reset functionality
+- [ ] Add login by code functionality

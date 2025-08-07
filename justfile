@@ -11,9 +11,10 @@ run-api:
 run-web:
     (cd ./frontend && pnpm run dev)
 
-
+    
 [parallel]
 bootstrap: bootstrap-api bootstrap-web
 
 [parallel]
 run: run-api run-web
+
